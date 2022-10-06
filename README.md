@@ -1,2 +1,6 @@
-# Phalcon Project wroking
-Building with Api , Docker container host and Postman
+## Phalcon project
+- API, MVC 
+- 
+- PHP, Docker, Postman, phpmyadmin
+- 
+- PHPMailer, JWT (firebase), Phalcon Migrations

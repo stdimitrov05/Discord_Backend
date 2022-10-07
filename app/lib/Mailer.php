@@ -24,19 +24,19 @@ class Mailer extends AbstractService
         return $mailer;
     }
 
-    // Send Sing up Token
+    // Send Activation Key
     public function singUpToken($email, $name, $token)
     {
         $mailer = $this->config();
 
-        //  HTML email
+        //  Use html in letter
         $mailer->IsHTML(true);
 
 
         // Check token and email
         if (!$token) {
             throw  new ServiceException(
-                'Token not exist',
+               'The activation key is gone',
                 self::ERROR_CONFIRMATION_TOKEN_NOT_EXIST
             );
         }

@@ -6,32 +6,23 @@ namespace App\Lib;
 use App\Exceptions\ServiceException;
 use App\Services\AbstractService;
 use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
 
 class Mailer extends AbstractService
 {
-    // Config PHPMailer
-    private function config()
-    {
-        $mailer = new PHPMailer();
-        $mailer->isSMTP();
-        $mailer->SMTPSecure = "tls";
-        $mailer->Host = 'smtp.gmail.com';
-        $mailer->SMTPAuth = true;
-        $mailer->Port = 587;
-        $mailer->Username = getenv("GMAIL_EMAIL");
-        $mailer->Password = getenv("GMAIL_PASS");
+    private $phpMailer;
 
-        return $mailer;
+    public function __construct($mailer)
+    {
+        $this->phpMailer = $mailer;
     }
 
     // Send Activation Key
-    public function singUpToken($email, $name, $token)
+    public function signUpToken($email, $name, $token)
     {
-        $mailer = $this->config();
 
         //  Use html in letter
-        $mailer->IsHTML(true);
-
+        $this->phpMailer->IsHTML(true);
 
         // Check token and email
         if (!$token) {
@@ -48,12 +39,14 @@ class Mailer extends AbstractService
             );
         }
 
+
         // Add config data
-        $mailer->AddAddress($email, $name);
-        $mailer->SetFrom("mstt95607@gmail.com", "M&S_TEAM");
+        $this->phpMailer->AddAddress($email, $name);
+
+        $this->phpMailer->SetFrom("mstt95607@gmail.com", "M&S_TEAM");
 
         // Create massage
-        $mailer->Subject = "Account activation";
+        $this->phpMailer->Subject = "Account activation";
         $content = "
         <h2 style='text-align: center'>Welcome  " . $name ." !</h2>
         <h3>You can activate your account with this key.</h3>
@@ -62,10 +55,11 @@ class Mailer extends AbstractService
         ";
 
 
-        $mailer->msgHTML($content);
+        $this->phpMailer->msgHTML($content);
 
+//        print_r($this->phpMailer);die;
 
-        if (!$mailer->send()) {
+        if (!$this->phpMailer->send()) {
 
             throw new ServiceException(
                 'Error while sending Email.',

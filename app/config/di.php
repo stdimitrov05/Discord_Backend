@@ -4,6 +4,7 @@ use Phalcon\Db\Adapter\Pdo\Mysql;
 use Phalcon\DI;
 use Phalcon\Logger;
 use Phalcon\Logger\Adapter\Stream;
+use PHPMailer\PHPMailer\PHPMailer;
 
 
 // Initializing a DI Container
@@ -46,7 +47,17 @@ $di->setShared('security', new Phalcon\Security());
 
 /** Mail service */
 $di->setShared('mailer', function () use ($config) {
-    return new \App\Lib\Mailer();
+
+    $mailer = new PHPMailer();
+    $mailer->isSMTP();
+    $mailer->SMTPSecure = "tls";
+    $mailer->Host = 'smtp.gmail.com';
+    $mailer->SMTPAuth = true;
+    $mailer->Port = 587;
+    $mailer->Username = getenv("GMAIL_EMAIL");
+    $mailer->Password = getenv("GMAIL_PASS");
+
+    return new \App\Lib\Mailer($mailer);
 });
 
 $di->set(

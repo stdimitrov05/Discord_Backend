@@ -170,7 +170,7 @@ class AuthService extends AbstractService
         try {
             $key = base64_decode($this->config->auth->key);
             $jwt = $this->getBearerToken();
-
+var_dump($jwt);die;
             if ($jwt === false) {
                 throw new ServiceException(
                     'Missing token',

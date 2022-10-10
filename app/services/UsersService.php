@@ -50,7 +50,7 @@ class UsersService extends AbstractService
             $emailConfirmation->save();
 
 
-            $this->mailer->singUpToken($user->email, $user->username, $token);
+            $this->mailer->signUpToken($user->email, $user->username, $token);
 
             $this->db->commit();
 

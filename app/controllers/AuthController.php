@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Exceptions\HttpExceptions\Http400Exception;
+use App\Exceptions\HttpExceptions\Http403Exception;
 use App\Exceptions\HttpExceptions\Http404Exception;
 use App\Exceptions\HttpExceptions\Http422Exception;
 use App\Exceptions\HttpExceptions\Http500Exception;
@@ -44,6 +45,8 @@ class AuthController extends AbstractController
             switch ($e->getCode()) {
                 case AbstractService::ERROR_UNABLE_CREATE_USER:
                     throw new Http422Exception($e->getMessage(), $e->getCode(), $e);
+                case AbstractService::ERROR_CANT_SEND_EMAIL:
+                    throw new Http403Exception($e->getMessage(), $e->getCode(), $e);
                 default:
                     throw new Http500Exception('Internal Server Error', $e->getCode(), $e);
             }

@@ -71,4 +71,20 @@ class Users extends \Phalcon\Mvc\Model
         $this->password = $this->getDI()->getSecurity()->hash($this->password);
     }
 
+    /**
+     * Find user by id
+     *
+     * @param int $id
+     * @return bool|ModelInterface
+     */
+    public function findById($id)
+    {
+        return parent::findFirst([
+            'columns' => '*',
+            'conditions' => 'id = ?1  AND banned = 0',
+            'bind' => [1 => $id],
+            'bindTypes'  => [Column::BIND_PARAM_INT]
+        ]);
+    }
+
 }

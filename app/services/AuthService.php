@@ -549,7 +549,6 @@ class AuthService extends AbstractService
 
             // Find user that matches the token
             $user = Users::findById($emailConfirmation->user_id);
-
             if (!$user) {
                 throw new ServiceException(
                     "User not found",

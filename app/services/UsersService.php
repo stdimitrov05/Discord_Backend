@@ -23,7 +23,7 @@ class UsersService extends AbstractService
      */
 
     public function createUser(array $data)
-{
+    {
         try {
             $this->db->begin();
 
@@ -65,6 +65,52 @@ class UsersService extends AbstractService
 
         return [
             'userId' => $user->id
+        ];
+
+    }
+
+    /**
+     * User list
+     * @returns  array
+     */
+    public function list()
+    {
+        $sql = "SELECT * FROM users ";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll();
+
+    }
+
+    /**
+     *  User profile
+     * @returns  array
+     */
+
+    public function profile()
+    {
+        $userId = $this->authService->getIdentity();
+        $sql = "
+        SELECT 
+           us.username,
+           us.email
+        FROM users us WHERE us.id = :id
+        ";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindParam('id', $userId, \PDO::PARAM_INT);
+        $stmt->execute();
+        $data = $stmt->fetchAll();
+
+        if (!$data) {
+            throw new ServiceException(
+                "User not found",
+                self::ERROR_USER_NOT_FOUND
+            );
+
+        }
+
+        return [
+            "Users Details" => $data
         ];
 
     }

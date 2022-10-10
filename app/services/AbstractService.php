@@ -35,6 +35,7 @@ abstract class AbstractService extends \Phalcon\DI\Injectable
     const ERROR_CONFIRMATION_TOKEN_EXPIRED = 11011;
     const ERROR_CONFIRMATION_CONFIRMED = 11012;
     const ERROR_CANT_SEND_EMAIL = 11013;
+    const ERROR_CONFIG_PROBLEM = 11014;
 
     /*
      * Auth errors

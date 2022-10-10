@@ -37,6 +37,8 @@ return new \Phalcon\Config(
                 API_VERSION . '/',
                 API_VERSION . '/login:POST',
                 API_VERSION . '/signup:POST',
+                API_VERSION . '/users:GET',
+                API_VERSION . '/profile:GET',
                 API_VERSION . '/users/password/forgot:POST',
                 API_VERSION . '/users/password/verify-token:POST',
                 API_VERSION . '/users/password/change:POST',

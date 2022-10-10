@@ -36,7 +36,7 @@ class Mailer extends AbstractService
         // Check token and email
         if (!$token) {
             throw  new ServiceException(
-                'Token not exist',
+                'Confirmation token not existd',
                 self::ERROR_CONFIRMATION_TOKEN_NOT_EXIST
             );
         }
@@ -53,8 +53,14 @@ class Mailer extends AbstractService
         $mailer->SetFrom("mstt95607@gmail.com", "M&S_TEAM");
 
         // Create massage
-        $mailer->Subject = "Hello " . $name . " !";
-        $content = "<h2>Use this token: <h2/>" . $token . " for activated .";
+        $mailer->Subject = "Account activation";
+        $content = "
+        <h2 style='text-align: center'>Welcome  " . $name ." !</h2>
+        <h3>You can activate your account with this key.</h3>
+        <h3>The key is: </h3> <h1>".$token."</h1>
+        <footer style='text-align: end'>By " . getenv("USERNAME") ."</footer>
+        ";
+
 
         $mailer->msgHTML($content);
 

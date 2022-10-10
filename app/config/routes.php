@@ -74,6 +74,29 @@ $authCollection->post(
 
 $app->mount($authCollection);
 
+/*============================
+Users
+=============================*/
+
+$usersCollection = new \Phalcon\Mvc\Micro\Collection();
+$usersCollection->setPrefix(API_VERSION);
+$usersCollection->setHandler('\App\Controllers\UsersController', true);
+
+// List users
+$usersCollection->get(
+    '/users',
+    'listAction'
+);
+
+// User profile
+$usersCollection->get(
+    '/profile',
+    'profileAction'
+);
+
+$app->mount($usersCollection);
+
+
 // Not found URLs
 $app->notFound(
   function () use ($app) {
